@@ -1,0 +1,8 @@
+#!/bin/bash
+
+nova interface-detach PC1 `neutron port-show NetA_Port_PC1 -c id -f value`
+nova interface-detach R1 `neutron port-show NetA_Port_R1 -c id -f value`
+neutron port-delete NetA_Port_PC1 NetA_Port_R1
+neutron net-delete NetA
+nova delete PC1
+nova delete R1

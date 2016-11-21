@@ -1,1 +1,17 @@
-testetstetstegetsfs
+# PC1
+nova boot --security-groups default,allow_SSH_CFETZ_Rechner --flavor c1.medium --image 6f3046f8-e084-4201-9715-252e0712f798 --key-name SSH-Schluessel-R1-R2 PC1
+# R1
+nova boot --security-groups default,allow_SSH_CFETZ_Rechner --flavor c1.medium --image 6f3046f8-e084-4201-9715-252e0712f798 --key-name SSH-Schluessel-R1-R2 R1
+
+#Netzwerk PC1 und R1
+neutron net-create --port_security_enabled=False --router:external=False NetA
+
+#Port
+neutron port-create --name NetA_Port_PC1 NetA
+neutron port-create --name NetA_Port_R1 NetA
+
+#Netwerk anbinden
+nova interface-attach --port-id `neutron port-show NetA_Port_PC1 -c id -f value` PC1
+nova interface-attach --port-id `neutron port-show NetA_Port_R1 -c id -f value` R1
+
+
